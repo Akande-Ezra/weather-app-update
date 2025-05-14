@@ -49,7 +49,7 @@ export default function CalendarPanel() {
       {days.map((date, index) => (
         <div
           key={index}
-          className={`p-2 sm:p-3 rounded-full ${
+          className={`p- sm:p- rounded-full ${
             date === today.getDate() ? 'bg-blue-800 text-white font-bold' : ''
           }`}
         >
