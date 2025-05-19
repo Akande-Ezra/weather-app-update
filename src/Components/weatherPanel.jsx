@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-// import './Weather.css';
 import search_icon from "../assets/search.jpg";
 import clear_icon from '../assets/sun-solid-240.png';
 import humidity_icon from '../assets/humidity-removebg-preview.png';
@@ -82,54 +81,57 @@ const WeatherPanel = () => {
   };
 
   return (
-    <div className="w-1/2 bg-gradient-to-b from-[#0B1D3A] to-[#183660] p-10 text-white relative">
-      <div className="">
-        <div className="flex items-center justify-between bg-white rounded-full px-4 py-2 w-full max-w-md mx-auto mt-4">
-  <input
-    ref={inputRef}
-    type="text"
-    placeholder="Search city..."
-    className="flex-grow text-black bg-transparent outline-none"
-    onKeyDown={(e) =>
-      e.key === 'Enter' && search(inputRef.current.value, selectedDate)
-    }
-  />
-  <button
-    onClick={() => search(inputRef.current.value, selectedDate)}
-    className="ml-2"
-  >
-    <img src={search_icon} alt="search" className="w-5 h-5" />
-  </button>
-</div>
+    <div className="flex-1 bg-gradient-to-b from-[#0B1D3A] to-[#183660] p-6 sm:p-8 md:p-10 text-white relative rounded-2xl h-full">
+      <div className="w-full">
+        {/* Search Bar */}
+        <div className="flex items-center justify-between bg-white rounded-full px-4 py-2 w-full sm:max-w-md mt-4 mx-auto">
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="Search city..."
+            className="flex-grow text-black bg-transparent outline-none"
+            onKeyDown={(e) =>
+              e.key === 'Enter' && search(inputRef.current.value, selectedDate)
+            }
+          />
+          <button
+            onClick={() => search(inputRef.current.value, selectedDate)}
+            className="ml-2"
+          >
+            <img src={search_icon} alt="search" className="w-5 h-5" />
+          </button>
+        </div>
+
+        {loading && <p className="text-center mt-4">Loading...</p>}
+
+        {weatherData && (
+          <>
+            <div className="text-center mt-6">
+              <img src={weatherData.icon} alt="Weather Icon" className="mx-auto w-24 h-24" />
+              <p className="text-4xl font-bold">{weatherData.temperature}°C</p>
+              <p className="text-lg capitalize">{weatherData.description}</p>
+              <p className="text-sm mt-2">{weatherData.location}</p>
+            </div>
+
+            <div className="flex justify-around items-center mt-6 text-sm">
+              <div className="flex flex-col items-center">
+                <img src={humidity_icon} alt="Humidity" className="w-8 h-8" />
+                <p>{weatherData.humidity}%</p>
+                <span>Humidity</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <img src={wind_icon} alt="Wind" className="w-8 h-8" />
+                <p>{weatherData.windSpeed} km/h</p>
+                <span>Wind Speed</span>
+              </div>
+            </div>
+
+            <div className="absolute bottom-5 left-6 text-xs text-gray-300">
+              📍 {weatherData.location}
+            </div>
+          </>
+        )}
       </div>
-
-      {loading && <p>Loading...</p>}
-
-      {weatherData && (
-        <>
-          <div className="text-center">
-            <img src={weatherData.icon} alt="Weather Icon" className="mx-auto w-24 h-24" />
-            <p className="text-4xl font-bold">{weatherData.temperature}°C</p>
-            <p className="text-lg capitalize">{weatherData.description}</p>
-            <p className="text-sm mt-2">{weatherData.location}</p>
-          </div>
-
-          <div className="flex justify-around items-center mt-3  text-sm">
-            <div className="flex flex-col items-center">
-              <img src={humidity_icon} alt="Humidity" className="w-8 h-8" />
-              <p>{weatherData.humidity}%</p>
-              <span>Humidity</span>
-            </div>
-            <div className="flex p-5 flex-col items-center">
-              <img src={wind_icon} alt="Wind" className="w-8 h-8" />
-              <p>{weatherData.windSpeed} km/h</p>
-              <span>Wind Speed</span>
-            </div>
-          </div>
-
-          <div className="absolute bottom-5 left-10 text-xs text-gray-300">📍 {weatherData.location}</div>
-        </>
-      )}
     </div>
   );
 };
